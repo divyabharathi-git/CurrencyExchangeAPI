@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.demo.model.Currency;
+import com.demo.model.ConvertCurrency;
+import com.demo.model.GetCurrency;
 import com.demo.service.CurrencyService;
+
+
 
 @Transactional
 @RestController
@@ -27,10 +30,11 @@ public class CurrencyController {
 	//URL : localhost:8081/allCurrencies?
 	//URL : localhost:8081/allCurrencies?base=EUR
 	@GetMapping("/allCurrencies")  
-	private List<Currency> getAllCurrencies(@RequestParam(defaultValue = "USD") String base)   
+	private List<GetCurrency> getAllCurrencies(@RequestParam(defaultValue = "USD") String base)   
 	{  
-		List<Currency> currencies = new ArrayList<>();
+		List<GetCurrency> currencies = new ArrayList<>();
 		currencies = currencyService.getAllCurrencies(base);
+
 		return currencies;
 	}  
 	
@@ -38,15 +42,13 @@ public class CurrencyController {
 	//URL : localhost:8081/currencyConvertor/?from=INR&to=AED&amount=2
 	//URL : localhost:8081/currencyConvertor/?from=INR&to=AED&amount=2&base=USD
 	@GetMapping("/currencyConvertor")  
-	private Currency getConvertedAmount(@RequestParam Map<String, String> params)  
+	private ConvertCurrency getConvertedAmount(@RequestParam Map<String, String> params)  
 	{  
 		String strDateFormat = "dd-MM-yyyy HH:mm:ss";
 		Date date = new Date();
 		DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
-        String formattedDate= dateFormat.format(date);
-
+        String formattedDate= dateFormat.format(date);	
 		
-		Currency c = new Currency();
 		String fromCurrency = params.get("from");
 		String toCurrency = params.get("to");
 		String baseCcy = params.get("base");
@@ -59,6 +61,8 @@ public class CurrencyController {
 		
 		double convertedAmount = amount * rate;
 		
+		ConvertCurrency c = new ConvertCurrency();
+		
 		c.setDatetime(formattedDate);
 		c.setBase(baseCcy);
 		c.setFrom(fromCurrency);
@@ -67,6 +71,10 @@ public class CurrencyController {
 		c.setAmount(amount);
 		c.setConvertedamount(convertedAmount);
 		
+	
 		return c;  
 	} 
 }
+
+
+

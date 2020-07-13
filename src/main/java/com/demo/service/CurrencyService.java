@@ -2,12 +2,11 @@ package com.demo.service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.demo.model.Currency;
+import com.demo.model.GetCurrency;
 import com.demo.repository.CurrencyRepository;
 
 @Transactional
@@ -17,9 +16,9 @@ public class CurrencyService {
 	@Autowired  
 	CurrencyRepository currencyRepository;
 	
-	public List<Currency> getAllCurrencies(String baseCcy)   
+	public List<GetCurrency> getAllCurrencies(String baseCcy)   
 	{  
-	List<Currency> currencies = new ArrayList<Currency>();  
+	List<GetCurrency> currencies = new ArrayList<>();  
 	currencyRepository.findAllCurrencies(baseCcy).forEach(currency -> currencies.add(currency));  
 	return currencies;  
 	} 
@@ -28,5 +27,6 @@ public class CurrencyService {
 	{  
 	double rate = currencyRepository.getConvertedAmount(toCurrency,baseCcy);  
 	return rate;  
-	} 
+	}
+
 }
