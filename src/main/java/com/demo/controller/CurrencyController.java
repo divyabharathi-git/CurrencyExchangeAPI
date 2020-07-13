@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,12 +31,17 @@ public class CurrencyController {
 	//URL : localhost:8081/allCurrencies?
 	//URL : localhost:8081/allCurrencies?base=EUR
 	@GetMapping("/allCurrencies")  
-	private List<GetCurrency> getAllCurrencies(@RequestParam(defaultValue = "USD") String base)   
+	private GetCurrency getAllCurrencies(@RequestParam(defaultValue = "USD") String base)   
 	{  
 		List<GetCurrency> currencies = new ArrayList<>();
 		currencies = currencyService.getAllCurrencies(base);
+		
+		GetCurrency gc = new GetCurrency();
+		
+		gc.setBase(base);
+		gc.setCurrencies(currencies.stream().collect(Collectors.toMap(GetCurrency::getCurrency, GetCurrency::getRate)));
 
-		return currencies;
+		return gc;
 	}  
 	
 	//By default it calclates currencies and rates against USD(BaseCurency)
@@ -61,18 +67,18 @@ public class CurrencyController {
 		
 		double convertedAmount = amount * rate;
 		
-		ConvertCurrency c = new ConvertCurrency();
+		ConvertCurrency cc = new ConvertCurrency();
 		
-		c.setDatetime(formattedDate);
-		c.setBase(baseCcy);
-		c.setFrom(fromCurrency);
-		c.setTo(toCurrency);
-		c.setRate(rate);
-		c.setAmount(amount);
-		c.setConvertedamount(convertedAmount);
+		cc.setDatetime(formattedDate);
+		cc.setBase(baseCcy);
+		cc.setFrom(fromCurrency);
+		cc.setTo(toCurrency);
+		cc.setRate(rate);
+		cc.setAmount(amount);
+		cc.setConvertedamount(convertedAmount);
 		
 	
-		return c;  
+		return cc;  
 	} 
 }
 
