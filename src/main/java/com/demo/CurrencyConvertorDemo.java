@@ -12,5 +12,5 @@ public class CurrencyConvertorDemo {
 		SpringApplication.run(CurrencyConvertorDemo.class, args);
 
 	}
-
+	
 }

@@ -30,7 +30,7 @@ public class CurrencyController {
 	//By default it shows currencies and rates against USD(BaseCurency)
 	//URL : localhost:8081/allCurrencies?
 	//URL : localhost:8081/allCurrencies?base=EUR
-	@GetMapping("/allCurrencies")  
+	@GetMapping("/currency-conversion-service/allCurrencies")  
 	private GetCurrency getAllCurrencies(@RequestParam(defaultValue = "USD") String base)   
 	{  
 		List<GetCurrency> currencies = new ArrayList<>();
@@ -47,7 +47,7 @@ public class CurrencyController {
 	//By default it calclates currencies and rates against USD(BaseCurency)
 	//URL : localhost:8081/currencyConvertor/?from=INR&to=AED&amount=2
 	//URL : localhost:8081/currencyConvertor/?from=INR&to=AED&amount=2&base=USD
-	@GetMapping("/currencyConvertor")  
+	@GetMapping("/currency-conversion-service/currencyConvertor")  
 	private ConvertCurrency getConvertedAmount(@RequestParam Map<String, String> params)  
 	{  
 		String strDateFormat = "dd-MM-yyyy HH:mm:ss";
